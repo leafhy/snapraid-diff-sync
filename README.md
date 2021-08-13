@@ -1,2 +1,3 @@
 # snapraid-diff-sync
-Minimal SnapRAID script
+This minimal SnapRAID script is based on https://github.com/auanasgheps/snapraid-aio-script
+Tested on Void Linux Musl
