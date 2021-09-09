@@ -71,6 +71,7 @@ MAIL_BIN="/usr/sbin/sendmail"
 CHK_FAIL=0
 DO_SYNC=0
 EMAIL_SUBJECT_PREFIX="(SnapRAID on $(hostname))"
+CURRENT_DIR=$(dirname "${0}")
 SYNC_WARN_FILE="$CURRENT_DIR/snapRAID.warnCount"
 SCRUB_COUNT_FILE="$CURRENT_DIR/snapRAID.scrubCount"
 TMP_OUTPUT="/tmp/snapRAID.out"
