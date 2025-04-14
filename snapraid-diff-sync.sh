@@ -198,7 +198,7 @@ function main() {
     echo "SYNC finished [$(date)]"
     mklog "INFO: SnapRAID SYNC Job finished"
     JOBS_DONE="$JOBS_DONE + SYNC"
-    # insert SYNC marker to 'Everything OK' or 'Nothing to do' string to
+    # Insert SYNC marker to 'Everything OK' or 'Nothing to do' string to
     # differentiate it from SCRUB job later
     sed_me "
       s/^Everything OK/${SYNC_MARKER} Everything OK/g;
@@ -502,7 +502,7 @@ function chk_scrub_settings() {
       echo
       run_scrub
     else
-      # if there is at least one warn count, output a message and force a scrub
+      # If there is at least one warn count, output a message and force a scrub
       # job. Do not need to remove warning marker here as it is automatically
       # removed when the scrub job is run by this script.
       echo "Number of delayed runs has reached/exceeded threshold ($SCRUB_DELAYED_RUN). A SCRUB job will run."
