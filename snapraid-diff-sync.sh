@@ -8,7 +8,9 @@
 
 ######################  USER CONFIGURATION  ######################
 
-# address where the output of the jobs will be emailed to.
+# Address where the output of the jobs will be emailed to.
+# Unset 'EMAIL_ADDRESS' if this script is executed by (f)cron
+# so as to avoid duplicate email.
 EMAIL_ADDRESS="root"
 
 # Set the threshold of deleted files to stop the sync job from running. NOTE
