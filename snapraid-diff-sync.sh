@@ -83,13 +83,13 @@ SNAPRAID_LOG="/var/log/snapraid.log"
 SECONDS=0 # Capture time
 SNAPRAID_CONF="/etc/snapraid.conf"
 
-# Expand PATH for smartctl
+# Expand PATH for smartctl.
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-# Extract info from SnapRAID config
+# Extract info from SnapRAID config.
 SNAPRAID_CONF_LINES=$(grep -E '^[^#;]' $SNAPRAID_CONF)
 
-# Build an array of content files
+# Build an array of content files.
 IFS=$'\n' CONTENT_FILES=(
 $(echo "$SNAPRAID_CONF_LINES" | grep snapraid.content | cut -d ' ' -f2)
 )
@@ -99,7 +99,7 @@ IFS=$'\n' PARITY_FILES=(
   $(echo "$SNAPRAID_CONF_LINES" | grep -E '^([2-6z]-)*parity' | cut -d ' ' -f2- | tr ',' '\n')
 )
 
-# Read SnapRAID version
+# Read SnapRAID version.
 SNAPRAIDVERSION="$(snapraid -V | sed -e 's/snapraid v\(.*\)by.*/\1/')"
 
 SYNC_MARKER="SYNC -"
@@ -110,13 +110,13 @@ SCRUB_MARKER="SCRUB -"
 ######################
 
 function main() {
-  # create tmp file for output
+  # Create tmp file for output.
   true > "$TMP_OUTPUT"
 
-  # Redirect all output to file and screen. Starts a tee process
+  # Redirect all output to file and screen. Starts a tee process.
   output_to_file_screen
 
-  # timestamp the job?
+  # Timestamp the job.
   echo "SnapRAID Script Job started [$(date)]"
   echo "Running SnapRAID version $SNAPRAIDVERSION"
   echo "----------------------------------------"
@@ -126,17 +126,17 @@ function main() {
 
   echo "## Pre-processing"
 
-  # sanity check first to make sure we can access the content and parity files.
+  # Sanity check first to make sure we can access the content and parity files.
   mklog "INFO: Checking SnapRAID disks"
   sanity_check
 
   echo "----------------------------------------"
   echo "## Processing"
 
-  # Fix timestamps
+  # Fix timestamps.
   chk_zero
 
-  # run the snapraid DIFF command
+  # Run the snapraid DIFF command.
   echo "### SnapRAID DIFF [$(date)]"
   mklog "INFO: SnapRAID DIFF started"
   $SNAPRAID_BIN diff
@@ -149,10 +149,10 @@ function main() {
   # Get number of deleted, updated, and modified files...
   get_counts
 
-  # sanity check to make sure that we were able to get our counts from the
+  # Sanity check to make sure that we were able to get our counts from the
   # output of the DIFF job.
   if [[ -z $DEL_COUNT || -z $ADD_COUNT || -z $MOVE_COUNT || -z $COPY_COUNT || -z $UPDATE_COUNT ]]; then
-    # failed to get one or more of the count values, lets report to user and
+    # Failed to get one or more of the count values, lets report to user and
     # exit with error code
     echo "**ERROR** - Failed to get one or more count values. Unable to continue."
     mklog "WARN: Failed to get one or more count values. Unable to continue."
@@ -167,7 +167,7 @@ function main() {
   echo "**SUMMARY: Equal [$EQ_COUNT] - Added [$ADD_COUNT] - Deleted [$DEL_COUNT] - Moved [$MOVE_COUNT] - Copied [$COPY_COUNT] - Updated [$UPDATE_COUNT]**"
   mklog "INFO: SUMMARY: Equal [$EQ_COUNT] - Added [$ADD_COUNT] - Deleted [$DEL_COUNT] - Moved [$MOVE_COUNT] - Copied [$COPY_COUNT] - Updated [$UPDATE_COUNT]"
 
-  # check if the conditions to run SYNC are met.
+  # Check if the conditions to run SYNC are met.
   # CHK 1 - if files have changed.
   if [[ $DEL_COUNT -gt 0 || $ADD_COUNT -gt 0 || $MOVE_COUNT -gt 0 || $COPY_COUNT -gt 0 || $UPDATE_COUNT -gt 0 ]]; then
     chk_del
@@ -299,10 +299,10 @@ function main() {
   echo "All jobs ended. [$(date)]"
   mklog "INFO: Snapraid: all jobs ended."
 
-  # all jobs done, let's send output to user if configured.
+  # All jobs done, let's send output to user if configured.
   if [[ $EMAIL_ADDRESS ]]; then
     echo -e "Email address is set. Sending email report to **$EMAIL_ADDRESS** [$(date)]"
-    # check if deleted count exceeded threshold.
+    # Check if deleted count exceeded threshold.
     prepare_mail
 
     ELAPSED="$((SECONDS / 3600))hrs $(((SECONDS / 60) % 60))min $((SECONDS % 60))sec"
@@ -621,13 +621,13 @@ function close_output_and_wait() {
 
 # Redirects output to file and screen. Open a new tee process.
 function output_to_file_screen() {
-  # redirect all output to screen and file
+  # redirect all output to screen and file.
   exec {OUT}>&1 {ERROR}>&2
   # NOTE: Not preferred format but valid: exec &> >(tee -ia "${TMP_OUTPUT}" )
   exec > >(tee -a "${TMP_OUTPUT}") 2>&1
 }
 
-# Sends important messages to syslog
+# Sends important messages to syslog.
 function mklog() {
   [[ "$*" =~ ^([A-Za-z]*):\ (.*) ]] &&
   {
@@ -637,7 +637,7 @@ function mklog() {
   echo "$(date '+[%Y-%m-%d %H:%M:%S]') $(basename "$0"): $PRIORITY: '$LOGMESSAGE'" >> "$SNAPRAID_LOG"
 }
 
-# Set TRAP
+# Set TRAP.
 trap final_cleanup INT EXIT
 
 main "$@"
