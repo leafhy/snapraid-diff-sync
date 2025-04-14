@@ -64,10 +64,11 @@ SNAP_STATUS=1
 
 ####################### SYSTEM CONFIGURATION #######################
 
-# location of the snapraid binary
+# Location of the snapraid binary.
 SNAPRAID_BIN="/usr/sbin/snapraid"
-# location of the mail program binary.
-# NOTE: sendmail is an symbolic link to femtomail,
+
+# Location of the mail program binary.
+# NOTE: 'sendmail' is an symbolic link to 'femtomail',
 #       see function 'send_mail'.
 MAIL_BIN="/usr/sbin/sendmail"
 
