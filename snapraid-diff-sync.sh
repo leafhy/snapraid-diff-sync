@@ -199,7 +199,7 @@ function main() {
     mklog "INFO: SnapRAID SYNC Job finished"
     JOBS_DONE="$JOBS_DONE + SYNC"
     # Insert SYNC marker to 'Everything OK' or 'Nothing to do' string to
-    # differentiate it from SCRUB job later
+    # differentiate it from SCRUB job later.
     sed_me "
       s/^Everything OK/${SYNC_MARKER} Everything OK/g;
       s/^Nothing to do/${SYNC_MARKER} Nothing to do/g" "$TMP_OUTPUT"
