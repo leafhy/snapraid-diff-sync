@@ -572,7 +572,7 @@ function prepare_mail() {
     elif [[ $DEL_COUNT -ge $DEL_THRESHOLD && $UPDATE_COUNT -ge $UP_THRESHOLD && $DO_SYNC -eq 0 ]]; then
       MSG="Multiple violations - Deleted files ($DEL_COUNT) / ($DEL_THRESHOLD) and changed files ($UPDATE_COUNT) / ($UP_THRESHOLD)"
 
-    else [[ $DEL_COUNT -ge $DEL_THRESHOLD && $UPDATE_COUNT -ge $UP_THRESHOLD && $DO_SYNC -eq 1 ]]; then
+    elif [[ $DEL_COUNT -ge $DEL_THRESHOLD && $UPDATE_COUNT -ge $UP_THRESHOLD && $DO_SYNC -eq 1 ]]; then
       MSG="Sync forced with multiple violations - Deleted files ($DEL_COUNT) / ($DEL_THRESHOLD) and changed files ($UPDATE_COUNT) / ($UP_THRESHOLD)"
     fi
 
